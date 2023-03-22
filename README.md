@@ -2,6 +2,34 @@
 
 An application illustrating crud operations of Neo4J DB
 
+Queries Used
+================
+For Insertion
+ @Query("MERGE (movie:Movie {Ids:$Id, Title: $title,Description:$desc,Year:$year,"
+      +"`Runtime (Minutes)`:$runTime,Votes:$votes,Rating:$rating,`Revenue (Millions)`:$revenue})"
+      +" MERGE(person:Person {Actors : $actors})"
+      +" MERGE(person_d:Person {Director : $director})"
+      + "MERGE(genre:Genre{Genre:$genre}) "
+      + "MERGE (person_d)-[:DIRECTED]->(movie)"
+      + "MERGE (person)-[:ACTED_IN]->(movie)"
+      + "MERGE(movie)-[:IN] ->(genre)"
+      + "RETURN movie.Title")
+      
+ For Finding movie by title
+  @Query("MATCH(movie:Movie) <-[ACTED_IN]-(person:Person),(genre:Genre)<-[IN]-(movie:Movie)  WHERE movie.Title = $title and person.Actors IS NOT NULL "
+      +"MATCH(movie_d:Movie) <-[DIRECTED]-(person_d:Person)  WHERE movie_d.Title = $title and person_d.Director IS NOT NULL "
+      +"RETURN person_d.Director as director , person.Actors as actors ,movie.Description as description ,"
+      + "movie.Ids as ids,movie.Title as title , genre.Genre as genre,movie.Rating as rating ,"
+      + "movie.Votes as votes , movie.Year as year ,movie.`Revenue (Millions)` as revenue ,movie.`Runtime (Minutes)` as runTime ")
+      
+  For Deleting movie node
+  @Query("MATCH (movie:Movie) WHERE movie.Title=$title   DETACH DELETE movie")
+  
+  For updating movie node
+    @Query("MATCH (movie:Movie) WHERE movie.Title=$title   set movie.Description = $desc,"
+         +"movie.Rating=$rating,movie.`Revenue (Millions)` = $revenue,"
+         +"movie.`Runtime (Minutes)` = $runTime,movie.Votes=$votes,movie.Year=$year")
+
 ## How to run the application
 
 1)Clone this code in to your local folder
