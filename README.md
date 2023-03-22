@@ -7,7 +7,8 @@ An application illustrating crud operations of Neo4J DB
 1)Clone this code in to your local folder
 git clone https://github.com/sxc37701/NEO4J_CRUD.git
 
-2)Open windows console command prompt and Navigate to NEO4J_CRUD\target
+2)Open Git bash at NEO4J_CRUD which points to main branch
+Execute mvn clean install Now Navigate to NEO4J_CRUD\target
 
 3)Run the below command
 java -jar neoCrud-0.0.1-SNAPSHOT.jar
